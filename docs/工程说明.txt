@@ -1,0 +1,20 @@
+﻿我们的官网:http://www.stoogessoft.com/
+
+一、如果是MYSQL数据库,导入stooges.sql文件,对src/conf/config.properties的
+数据库中连接进行相应修改。
+
+二、如果是ORACLE数据库,基于docs目录下/ORACLE创建数据库说明.txt来导入stooges.dmp文件。
+
+三、后台的访问地址http://localhost:你的端口/stooges2/
+
+四、超级管理员账号和密码admin / 123456
+
+五、如果需要启用邮件API,请修改src/conf/config.properties的邮件服务器配置。
+
+六、tomcat 热部署配置 将 springloaded-1.2.8.RELEASE.jar 拷贝到tomcat的bin目录下
+#windows
+#set JAVA_OPTS=-javaagent:springloaded-1.2.8.RELEASE.jar -noverify
+#linux
+export JAVA_OPTS="-javaagent:springloaded-1.2.8.RELEASE.jar -noverify"
+
+七、如果需要在自动化部署的节点能够管理服务器,那么需要将docs中的platserver一起部署到tomcat下。

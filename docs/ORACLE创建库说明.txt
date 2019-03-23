@@ -1,0 +1,22 @@
+1、
+create tablespace TS_STOOGES
+logging  
+datafile 'D:\app\lenovo\oradata\orcl\ts_stooges_01.dbf' 
+size 100m  
+autoextend on  
+next 100m maxsize 20480m  
+extent management local;  
+
+2、
+create temporary tablespace TS_STOOGES_TEMP 
+tempfile 'D:\app\lenovo\oradata\orcl\ts_stooges_temp_01.dbf' 
+size 100m  
+autoextend on  
+next 100m maxsize 20480m  
+extent management local;  
+
+create user STOOGES identified by STOOGES default tablespace 
+  TS_STOOGES temporary tablespace TS_STOOGES_TEMP;
+  
+3、
+grant dba to STOOGES;

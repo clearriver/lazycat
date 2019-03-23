@@ -1,0 +1,111 @@
+/*定义头部工具栏样式*/
+.design_titletool {
+	height: 64px;
+	background-color: #d8e4fe;
+}
+/*定义头部工具栏按钮样式*/
+.design_titlebuttonStyle {
+	cursor: pointer;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+/*定义左侧图元区工具栏*/
+.design_leftcontent {
+	width: 150px;
+	position: relative;
+	background-color: #d8e4fe;
+	overflow: hidden;
+}
+
+.text-Lh {
+	float: left;
+	width:60px;
+	line-height: 32px;
+	font-size:14px;
+	font-family:"Microsoft YaHei",sans-serif;
+}
+.checkout-input {
+	float: left;
+	padding: 0 0 0 7px;
+	height: 32px;
+	color: #525864;
+	background: white;
+	border: 1px solid;
+	border-color: #b3c0e2 #bcc5e2 #c0ccea;
+	border-radius: 4px;
+	background-image: -webkit-linear-gradient(top, #f6f8fa, white);
+	background-image: -moz-linear-gradient(top, #f6f8fa, white);
+	background-image: -o-linear-gradient(top, #f6f8fa, white);
+	background-image: linear-gradient(to bottom, #f6f8fa, white);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px rgba(255, 255, 255, 0.5);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px rgba(255, 255, 255, 0.5);
+}
+.checkout-input:focus {
+	border-color: #46aefe;
+	outline: none;
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px #46aefe;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px #46aefe;
+}
+.checkout-btn {
+	width: 90%;
+	height: 34px;
+	padding: 0;
+	font-weight: bold;
+	color: white;
+	cursor: pointer;
+	text-align: center;
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.2);
+	border: 1px solid;
+	border-color: #1486f9 #0f7de9 #0d6acf;
+	background: #1993fb;
+	border-radius: 4px;
+	background-image: -webkit-linear-gradient(top, #4cb1fe, #229afc 40%, #138df6);
+	background-image: -moz-linear-gradient(top, #4cb1fe, #229afc 40%, #138df6);
+	background-image: -o-linear-gradient(top, #4cb1fe, #229afc 40%, #138df6);
+	background-image: linear-gradient(to bottom, #4cb1fe, #229afc 40%, #138df6);
+	-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.checkout-btn:active {
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	border-color: #075bba #0c69d2 #0f7de9;
+	background-image: -webkit-linear-gradient(top, #1281dc, #1593fc);
+	background-image: -moz-linear-gradient(top, #1281dc, #1593fc);
+	background-image: -o-linear-gradient(top, #1281dc, #1593fc);
+	background-image: linear-gradient(to bottom, #1281dc, #1593fc);
+	-webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1), 0 1px rgba(255, 255, 255, 0.5);
+	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1), 0 1px rgba(255, 255, 255, 0.5);
+}
+.fix_height{line-height:32px;text-align: center;}
+.clearfix:after{content:'\0020';display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{*zoom:1; _zoom:1;}
+
+/**===============开始编写工具栏CSS========================**/
+
+.right-con .e-toolbar {
+	background: url(../images/bar.gif) no-repeat 0 -40px;
+	padding-left: 6px;
+}
+.right-con .e-toolbar-ct {
+	background: url(../images/bar.gif) no-repeat right -80px;
+	padding-right: 6px;
+}
+.right-con .e-toolbar-overflow {
+	background: url(../images/bar.gif) repeat-x 0 0px;
+	height: 37px;
+	overflow: hidden;
+	line-height: 33px;
+}
+
+/**===============结束编写工具栏CSS========================**/
+
+.eflowbutton{
+	  background: #3a81d0;
+	  border: none;
+	  padding: 0 10px;
+	  height: 30px;
+	  cursor: pointer;
+	  margin-top: 3px;
+	  color: #fff;
+	  border-radius: 3px;
+}
