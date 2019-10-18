@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import com.stooges.core.dao.BaseDao;
+import com.stooges.core.model.SqlFilter;
 import com.stooges.core.service.impl.BaseServiceImpl;
 import com.stooges.core.util.AllConstants;
 import com.stooges.core.util.PlatAppUtil;
@@ -282,6 +283,11 @@ public class JbpmServiceImpl extends BaseServiceImpl implements JbpmService {
             flowDef = flowDefService.getFlowDefInfo(FLOWDEF_ID,Integer.parseInt(EXECUTION_VERSION));
             runningNodeKeys = (String) execution.get("CURRENT_NODEKEYS");
             String SERITEM_ID = (String) execution.get("SERITEM_ID");
+            Object jbpmMainTableRecordId=execution.get("TMPSAVE_RECORDID");
+            if(jbpmMainTableRecordId!=null&&StringUtils.isNotBlank(jbpmMainTableRecordId.toString())) {
+                jbpmFlowInfo.setJbpmMainTableRecordId(jbpmMainTableRecordId.toString());
+            }
+            jbpmFlowInfo.setJbpmRunningNodeKeys(runningNodeKeys);
             jbpmFlowInfo.setJbpmSerItemId(SERITEM_ID);
         }else{
             flowDef = flowDefService.getRecord("JBPM6_FLOWDEF",new String[]{"FLOWDEF_ID"},new Object[]{flowDefId});
@@ -563,7 +569,8 @@ public class JbpmServiceImpl extends BaseServiceImpl implements JbpmService {
             }
         }
         jbpmFlowInfo.setJbpmIsParallel("false");
-        for(FlowNode nextNode:nextNodeList){
+        FlowNode lastnode=null;
+        for(FlowNode nextNode:nextNodeList){lastnode=nextNode;
             String nodeType = nextNode.getNodeType();
             if(nodeType.equals(FlowNode.NODETYPE_TASK)||nodeType.equals(FlowNode.NODETYPE_END)||
                     nodeType.equals(FlowNode.NODETYPE_SUBPROCESS)||nodeType.equals(FlowNode.NODETYPE_START)){
@@ -610,6 +617,13 @@ public class JbpmServiceImpl extends BaseServiceImpl implements JbpmService {
                     nextHandleNodeList.add(resultNode);
                 }
             }
+        }
+        if(nextHandleNodeList!=null&&nextHandleNodeList.size()==1) {
+        	String nodeType = nextHandleNodeList.get(0).getNodeType();
+        	if(FlowNode.NODETYPE_JOIN.equals(nodeType)||FlowNode.NODETYPE_DECISION.equals(nodeType)) {
+            	nextHandleNodeList=getNextHandleNodeList(null,
+            			lastnode.getNodeKey(),jbpmFlowInfo,flowVars);
+        	}
         }
         return nextHandleNodeList;
     }
@@ -1144,5 +1158,14 @@ public class JbpmServiceImpl extends BaseServiceImpl implements JbpmService {
             }
         }
     }
-
+	@Override
+	public List<Map<String, Object>> findBySqlFilter(SqlFilter filter,Map<String,Object> map) {
+		String sql="select T.* from JBPM6_EXECUTION T ";
+//		ROLECODES=adminrole
+		Map<String, Object> user=PlatAppUtil.getBackPlatLoginUser();
+		if(!String.valueOf(user.get("ROLECODES")).contains("admin")) {
+			sql+="WHERE CREATOR_ID='"+user.get("SYSUSER_ID")+"'";
+		}
+		return dao.findBySql(sql, new Object[] {}, null);
+	}
 }

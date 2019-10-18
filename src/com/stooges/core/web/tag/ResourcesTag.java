@@ -270,6 +270,7 @@ public class ResourcesTag extends TagSupport {
         jsRes.append("<script src=\"plug-in/platform-1.0/js/respond.min.js\"></script>");
         jsRes.append("<![endif]-->");
         jsRes.append("<script src=\"plug-in/platform-1.0/js/plat-util.js\"></script>");
+//        jsRes.append("<script src=\"plug-in/jquery.base64.js\"></script>");
         return jsRes.toString();
     }
     

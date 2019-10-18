@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.stooges.core.model.SqlFilter;
 import com.stooges.core.service.BaseService;
 import com.stooges.platform.workflow.model.FlowAssignInfo;
 import com.stooges.platform.workflow.model.FlowNextStep;
@@ -114,4 +115,6 @@ public interface JbpmService extends BaseService {
      * @param flowVars
      */
     public void doBatchFlow(Map<String,Object> flowVars);
+    
+    public List<Map<String,Object>> findBySqlFilter(SqlFilter filter,Map<String,Object> map);
 }

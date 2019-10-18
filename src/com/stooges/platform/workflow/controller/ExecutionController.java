@@ -196,6 +196,15 @@ public class ExecutionController extends BaseController {
         String nextAuditType = "0";
         Map<String,Object> flowVars = (Map<String, Object>) PlatAppUtil.getSessionCache(flowToken);
         JbpmFlowInfo jbpmFlowInfo = (JbpmFlowInfo) PlatBeanUtil.mapToBean(new JbpmFlowInfo(),flowVars);
+        if(flowVars.containsKey("needQuery")){
+        	List<Map<String, Object>> list=jbpmService.findBySql("SELECT * FROM jbpm6_task where TASK_MAINTABLENAME=? and TASK_MAINRECORDID=? order by TASK_CREATETIME desc", 
+        			new String[]{jbpmFlowInfo.getJbpmMainTableName(),jbpmFlowInfo.getJbpmMainTableRecordId()}, null);
+        	if(list!=null&&list.size()>0){
+        		Map<String, Object> map=list.get(0);
+            	jbpmFlowInfo=jbpmService.getJbpmFlowInfo(map.get("TASK_EXEID").toString(),null,"false",map.get("TASK_ID").toString());
+            	flowVars.putAll(PlatBeanUtil.beanToMap(jbpmFlowInfo));
+        	}
+        }
         List<FlowNextStep> nextStepList = null;
         //获取当前办理人任务数据
         String operingTaskId = jbpmFlowInfo.getJbpmOperingTaskId();
@@ -368,6 +377,11 @@ public class ExecutionController extends BaseController {
             HttpServletResponse response) {
         Map<String,Object> params = PlatBeanUtil.getMapFromRequest(request);
         String flowToken = UUIDGenerator.getUUID();
+        if(params.containsKey("jbpmRunningNodeKeys")) {
+            if(!params.containsKey("jbpmOperingNodeKey")||params.get("jbpmOperingNodeKey")==null) {
+            	params.put("jbpmOperingNodeKey",params.get("jbpmRunningNodeKeys"));
+            }
+        }
         PlatAppUtil.setSessionCache(flowToken,params);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("success", true);

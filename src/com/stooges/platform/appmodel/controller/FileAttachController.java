@@ -105,13 +105,18 @@ public class FileAttachController extends BaseController {
         OutputStream os = null;
         try {
             // 为了解决中文名称乱码问题
-            response.setCharacterEncoding("utf-8");
+            response.setCharacterEncoding("utf-8");request.getHeader("USER-AGENT");
             response.setContentType("multipart/form-data");
-            if(BrowserUtils.checkBrowse(request).contains("IE")){
-                response.setHeader("Content-Disposition", "attachment; filename=\""
-                        + java.net.URLEncoder.encode(fileName,"utf-8")+"\"");
+            if(BrowserUtils.checkBrowse(request).contains("IE")
+            		||BrowserUtils.checkBrowse(request).contains(BrowserUtils.IE11)
+            		||BrowserUtils.checkBrowse(request).contains(BrowserUtils.SAFARI)
+            		||BrowserUtils.checkBrowse(request).contains(BrowserUtils.FIREFOX)
+            		||BrowserUtils.checkBrowse(request).contains(BrowserUtils.BINGBOT)
+            		||BrowserUtils.checkBrowse(request).contains(BrowserUtils.CHROME)){
+                response.setHeader("Content-Disposition", "attachment; filename*=utf-8'zh_cn'"
+                        + java.net.URLEncoder.encode(fileName,"utf-8"));
             }else{
-                response.setHeader("Content-Disposition", "attachment;filename=\""
+                response.setHeader("Content-Disposition", "attachment;filename*=\""
                         + new String(fileName.getBytes("gb2312"), "ISO8859-1")+"\"");
             }
             // 用于记录以完成的下载的数据量，单位是byte

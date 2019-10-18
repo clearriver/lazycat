@@ -70,13 +70,13 @@ public class FileAttachServiceImpl extends BaseServiceImpl implements FileAttach
      */
     public List<Map<String,Object>> findList(String busTableName,String busRecordId,String typeKey){
         StringBuffer sql = new StringBuffer("SELECT * FROM PLAT_SYSTEM_FILEATTACH T ");
-        sql.append("WHERE T.FILE_BUSTABLELNAME=? AND T.FILE_BUSRECORDID=? ");
+        sql.append("WHERE T.FILE_BUSTABLELNAME=? AND T.FILE_BUSRECORDID LIKE '%"+busRecordId+"%' ");
         List params = new ArrayList();
         params.add(busTableName);
-        params.add(busRecordId);
+//        params.add(busRecordId);
         if(StringUtils.isNotEmpty(typeKey)){
-            sql.append(" AND T.FILE_TYPEKEY=? ");
-            params.add(typeKey);
+            sql.append(" AND T.FILE_TYPEKEY LIKE '%"+typeKey+"%'");
+//            params.add(typeKey);
         }
         sql.append(" ORDER BY T.FILE_CREATETIME ASC ");
         List<Map<String,Object>> list = dao.findBySql(sql.toString(),params.toArray(), null);

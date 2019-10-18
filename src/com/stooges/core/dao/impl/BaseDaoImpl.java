@@ -12,6 +12,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.Map.Entry;
 
 import jodd.util.StringUtil;
@@ -118,7 +120,28 @@ abstract public class BaseDaoImpl extends NamedParameterJdbcDaoSupport implement
             }
         }
     }
-    
+    public List<Map<String,Object>> getRecords(String tableName,String[] colNames,Object[] colValues){
+    	StringBuffer sql = new StringBuffer("select * from ");
+        sql.append(tableName).append(" BUS WHERE ");
+        for(int i = 0;i<colNames.length;i++){
+            if(i>0){
+                sql.append(" AND ");
+            }
+            sql.append("BUS.").append(colNames[i]).append("=? ");
+        }
+        StringBuffer countSql = new StringBuffer("SELECT COUNT(*) FROM (");
+        countSql.append(sql).append(") ");
+        String dbType = PlatAppUtil.getDbType();
+        if(dbType.equals("MYSQL")||dbType.equals("SQLSERVER")){
+            countSql.append(" AS COUNT ");
+        }
+        int resultCount = this.getIntBySql(countSql.toString(), colValues);
+        if(resultCount==0){
+            return Collections.emptyList();
+        }else{
+        	return findBySql(sql.toString(),colValues,null);
+        }
+    }
     /**
      * 
      * 描述 根据表名称获取主键名称,面向MYSQL数据库
@@ -1438,10 +1461,11 @@ abstract public class BaseDaoImpl extends NamedParameterJdbcDaoSupport implement
      * @return
      */
     public List<String> findOrderColumn(List<TableColumn> columns,Set<String> columnKeys){
+    	Set<String> columnKeysTemp=columnKeys.stream().map(e->e.toUpperCase()).collect(Collectors.toSet());
         List<String> fieldNames = new ArrayList<String>();
         Map<Integer,String> map = new HashMap<Integer,String>();
         for(TableColumn column:columns){
-            if(columnKeys.contains(column.getColumnName())){
+            if(columnKeysTemp.contains(column.getColumnName().toUpperCase())){
                 map.put(Integer.parseInt(column.getColumnId()),column.getColumnName());
             }
         }
@@ -1491,7 +1515,8 @@ abstract public class BaseDaoImpl extends NamedParameterJdbcDaoSupport implement
         final List<TableColumn> columns = this.findTableColumnByTableName(tableName);
         String sql = this.getPreparedInsertSql(tableName,datas.get(0).keySet());
         final List<String> orderColumns = this.findOrderColumn(columns,datas.get(0).keySet());
-        this.getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter(){
+        List<String> orderColumnsTemp=orderColumns.stream().map(e->e.toUpperCase()).collect(Collectors.toList());
+        this.getJdbcTemplate().batchUpdate(sql.toUpperCase(), new BatchPreparedStatementSetter(){
             public int getBatchSize(){
                 return datas.size();
             }
@@ -1500,7 +1525,7 @@ abstract public class BaseDaoImpl extends NamedParameterJdbcDaoSupport implement
                 Iterator iter = data.entrySet().iterator();  
                 while(iter.hasNext()){
                     Entry<String,Object> entry = (Entry<String,Object>) iter.next();
-                    ps.setObject(orderColumns.indexOf(entry.getKey())+1, entry.getValue());
+                    ps.setObject(orderColumnsTemp.indexOf(entry.getKey().toUpperCase())+1, entry.getValue());
                 }               
             }
         });
@@ -1898,7 +1923,7 @@ abstract public class BaseDaoImpl extends NamedParameterJdbcDaoSupport implement
             }
             return selectedRecordIds.toString();
         }else{
-            return null;
+            return "";
         }
     }
     

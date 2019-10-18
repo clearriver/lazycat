@@ -597,7 +597,7 @@ public class DesignController extends BaseController {
             finalFileName = URLEncoder.encode(fileZip,"UTF8");//其他浏览器
         }
         response.setContentType("application/x-download");//告知浏览器下载文件，而不是直接打开，浏览器默认为打开
-        response.setHeader("Content-Disposition" ,"attachment;filename=\"" +finalFileName+ "\"");//下载文件的名称
+        response.setHeader("Content-Disposition" ,"attachment;filename*=utf-8'zh_cn'" +finalFileName);//下载文件的名称
         ServletOutputStream servletOutputStream=response.getOutputStream();
         DataOutputStream temps = new DataOutputStream(
                         servletOutputStream);

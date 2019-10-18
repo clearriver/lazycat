@@ -247,7 +247,8 @@ public class PlatOfficeUtil {
                         if(columnCount!=0){
                             colCount = columnCount;
                         }else{
-                            colCount = row.getPhysicalNumberOfCells();
+//                            colCount = row.getPhysicalNumberOfCells();
+                            colCount = row.getLastCellNum();
                         }
                         int checkCount=0;
                         for (int j = startColNum; j < colCount; j++) {

@@ -150,16 +150,25 @@ public class ExcelImpServiceImpl extends BaseServiceImpl implements ExcelImpServ
      */
     public Object getTransValue(String TRANS_INTER,Object dataValue,List<Object> rowData){
         if(StringUtils.isNotEmpty(TRANS_INTER)){
-            String beanId = TRANS_INTER.split("[.]")[0];
-            String method = TRANS_INTER.split("[.]")[1];
+        	String[] trans=TRANS_INTER.split("[.]");
+            String beanId = trans[0];
+            String method = trans[1];
+            String parameter1 =trans.length>2?TRANS_INTER.split("[.]")[2]:null;
             Object serviceBean = PlatAppUtil.getBean(beanId);
             if (serviceBean != null) {
                 Method invokeMethod;
                 try {
-                    invokeMethod = serviceBean.getClass().getDeclaredMethod(method,
-                            new Class[] { Object.class,List.class });
-                    dataValue = (Object) invokeMethod.invoke(serviceBean,
-                            new Object[] { dataValue,rowData});
+                    if(parameter1==null) {
+                        invokeMethod = serviceBean.getClass().getDeclaredMethod(method,
+                                new Class[] { Object.class,List.class });
+                        dataValue = (Object) invokeMethod.invoke(serviceBean,
+                                new Object[] { dataValue,rowData});
+                    }else {
+                        invokeMethod = serviceBean.getClass().getDeclaredMethod(method,
+                                new Class[] { String.class,String.class });
+                        dataValue = (Object) invokeMethod.invoke(serviceBean,
+                                new Object[] { parameter1,dataValue});
+                    }
                     return dataValue;
                 } catch (Exception e) {
                     PlatLogUtil.printStackTrace(e);

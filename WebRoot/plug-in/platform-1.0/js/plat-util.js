@@ -151,6 +151,29 @@ var PlatUtil = {
 		});
 	},
 	/**
+	 * 显示流程办理弹出框
+	 */
+	showFlowHandleWindow:function(jbpmFlowInfo,winTitle,callbackFun){
+		PlatUtil.ajaxProgress({
+			url : "workflow/ExecutionController.do?cacheFlowInfo",
+			params : jbpmFlowInfo,
+			callback : function(resultJson) {
+				var flowToken = resultJson.flowToken;
+				PlatUtil.openWindow({
+					title:winTitle,
+					area: ["1000px","500px"],
+					content: "workflow/ExecutionController.do?goFlowHandleWindow&flowToken="+flowToken,
+					end:function(){
+					  if(PlatUtil.isSubmitSuccess()){
+						  PlatUtil.setData("submitSuccess",true);
+						  callbackFun();
+					  }
+					}
+				});
+			}
+		});
+	},
+	/**
 	 * 获取jbpm流程信息对象
 	 */
 	getJbpmFlowInfo:function(){

@@ -45,7 +45,7 @@ public interface BaseDao {
      * @return
      */
     public Map<String,Object> getRecord(String tableName,String[] colNames,Object[] colValues);
-    
+    public List<Map<String,Object>> getRecords(String tableName,String[] colNames,Object[] colValues);
     /**
      * 
      * 描述 根据数据库表名称获取主键的名称

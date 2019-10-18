@@ -135,63 +135,64 @@ public class BrowserUtils {
     /**
      * 属性"rv:11.0"
      */
-    private final static String IE11 = "rv:11.0";
+    public final static String IE11 = "rv:11.0";
     /**
      * 属性10.0"
      */
-    private final static String IE10 = "MSIE 10.0";
+    public final static String IE10 = "MSIE 10.0";
     /**
      * 属性9.0"
      */
-    private final static String IE9 = "MSIE 9.0";
+    public final static String IE9 = "MSIE 9.0";
     /**
      * 属性8.0"
      */
-    private final static String IE8 = "MSIE 8.0";
+    public final static String IE8 = "MSIE 8.0";
     /**
      * 属性7.0"
      */
-    private final static String IE7 = "MSIE 7.0";
+    public final static String IE7 = "MSIE 7.0";
     /**
      * 属性6.0"
      */
-    private final static String IE6 = "MSIE 6.0";
+    public final static String IE6 = "MSIE 6.0";
     /**
      * 属性"Maxthon"
      */
-    private final static String MAXTHON = "Maxthon";
+    public final static String MAXTHON = "Maxthon";
     /**
      * 属性"QQBrowser"
      */
-    private final static String QQ = "QQBrowser";
+    public final static String QQ = "QQBrowser";
     /**
      * 属性"GreenBrowser"
      */
-    private final static String GREEN = "GreenBrowser";
+    public final static String GREEN = "GreenBrowser";
     /**
      * 属性"360SE"
      */
-    private final static String SE360 = "360SE";
+    public final static String SE360 = "360SE";
     /**
      * 属性"Firefox"
      */
-    private final static String FIREFOX = "Firefox";
+    public final static String FIREFOX = "Firefox";
     /**
      * 属性"Opera"
      */
-    private final static String OPERA = "Opera";
+    public final static String OPERA = "Opera";
     /**
      * 属性"Chrome"
      */
-    private final static String CHROME = "Chrome";
+    public final static String CHROME = "Chrome";
     /**
      * 属性"Safari"
      */
-    private final static String SAFARI = "Safari";
+    public final static String SAFARI = "Safari";
+    public final static String BINGBOT = "bingbot";
     /**
      * 属性"其它"
      */
-    private final static String OTHER = "其它";
+    public final static String OTHER = "其它";
 
     /**
      * 方法checkBrowse
@@ -230,6 +231,8 @@ public class BrowserUtils {
             return IE7;
         if (regex(IE6, userAgent))
             return IE6;
+        if (regex(BINGBOT, userAgent))
+            return BINGBOT;
         return OTHER;
     }
 
